@@ -29,6 +29,22 @@ app.use(cors({
     credentials: true
 }));
 
+// Root route
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Backend API is running!',
+        version: '1.0.0',
+        endpoints: {
+            health: '/api/health',
+            items: '/api/items',
+            itemById: '/api/items/:id',
+            login: '/api/login',
+            logout: '/api/logout',
+            me: '/api/me'
+        }
+    });
+});
+
 // Basic Health Check
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', time: new Date().toISOString() });
