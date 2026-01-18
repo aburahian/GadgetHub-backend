@@ -158,6 +158,19 @@ app.post('/api/items', authenticateToken, (req, res) => {
     res.status(201).json(newItem);
 });
 
+app.delete('/api/items/:id', authenticateToken, (req, res) => {
+    const items = readData();
+    const itemIndex = items.findIndex(i => i.id === parseInt(req.params.id));
+
+    if (itemIndex === -1) {
+        return res.status(404).json({ message: "Item not found" });
+    }
+
+    const deletedItem = items.splice(itemIndex, 1)[0];
+    writeData(items);
+    res.json({ message: "Item deleted successfully", item: deletedItem });
+});
+
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
